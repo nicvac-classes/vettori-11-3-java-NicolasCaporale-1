@@ -8,21 +8,46 @@ class Esercizio {
 
     private static Scanner in = new Scanner(System.in);
 
-    public static int selezMenu()
-    {
+    public static int selezMenu() {
         int c;
-        do{
+        do {
             System.out.println("Seleziona un opzione:");
-            System.out.println("1)Ins elemento \n2)Elimina elemento \n3)Ricerca vettore \n4)Elimina duplicati \n5)Visualizza vettore \n6)Esci");
+            System.out.println(
+                    "1)Ins elemento \n2)Elimina elemento \n3)Ricerca vettore \n4)Elimina duplicati \n5)Visualizza vettore \n6)Esci");
             c = Integer.parseInt(in.nextLine());
-        }while(c != 1 || c != 2 || c != 3 || c != 4 || c != 5 || c != 6);
+        } while (c != 1 || c != 2 || c != 3 || c != 4 || c != 5 || c != 6);
         return c;
     }
 
-    public static void inserisciElemento(int[] v, int n) {}
-    public static void eliminaElemento(int[] v, int n) {}
-    public static void ricercaElemento(int[] v, int n) {}
-    public static void eliminaDuplicati(int[] v, int n) {}
+    public static void inserisciElemento(int[] v, int n, int elemento, int pos) {
+        int[] temp = new int[n + 1];
+        for (int i = 0; i < pos; i++) {
+            temp[i] = v[i];
+        }
+        temp[pos] = elemento;
+        for (int i = pos; i < n; i++) {
+            temp[i + 1] = v[i];
+        }
+        for (int i = 0; i < n + 1; i++) {
+            v[i] = temp[i];
+        }
+    }
+
+    public static void eliminaElemento(int[] v, int n) {
+    }
+
+    public static int ricercaElemento(int[] v, int n, int e) {
+        int i = 0;
+        while (i < n) {
+            if (v[i] == e) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static void eliminaDuplicati(int[] v, int n) {
+    }
 
     public static void visualizzaVettore(int[] v, int n) {
         if (n == 0) {
@@ -36,30 +61,46 @@ class Esercizio {
     }
 
     // Il programma parte con una chiamata a main().
-    public static void main(String args[])
-    {
-        int c,n;
-        do
-        {
+    public static void main(String args[]) {
+        int c, n;
+        int e, pos;
+        do {
             System.out.print("Ins n:");
             n = Integer.parseInt(in.nextLine());
-        }while(n <= 0);
-        int[] v = new int[n*100];
-        do
-        {
+        } while (n <= 0);
+        int[] v = new int[n * 100];
+        do {
             c = selezMenu();
-            switch(c)
-            {
-                case 1: inserisciElemento(v, n); break;
-                case 2: eliminaElemento(v, n); break;
-                case 3: ricercaElemento(v, n); break;
-                case 4: eliminaDuplicati(v, n); break;
-                case 5: visualizzaVettore(v, n); break;
-                case 6: System.out.println("Uscita"); break;
+            switch (c) {
+                case 1:
+                    
+                    System.out.println("Inserisci elemento e posizione");
+                    e = Integer.parseInt(in.nextLine());
+                    pos = Integer.parseInt(in.nextLine()); 
+                    inserisciElemento(v, n, e, pos);
+                    break;
+                case 2:
+                    eliminaElemento(v, n);
+                    break;
+                case 3:
+                    System.out.println("ins elemento");
+                    e = Integer.parseInt(in.nextLine());
+                    e = ricercaElemento(v, n, e);
+                    System.out.println(e);
+                    break;
+                case 4:
+                    eliminaDuplicati(v, n);
+                    break;
+                case 5:
+                    visualizzaVettore(v, n);
+                    break;
+                case 6:
+                    System.out.println("Uscita");
+                    break;
             }
-                
-        }while(c!=6);
+
+        } while (c != 6);
     }
 }
 
-//LEGGERE LE ISTRUZIONI NEL FILE README.md
+// LEGGERE LE ISTRUZIONI NEL FILE README.md
