@@ -19,7 +19,7 @@ class Esercizio {
         return c;
     }
 
-    public static void inserisciElemento(int[] v, int n, int elemento, int pos) {
+    public static int inserisciElemento(int[] v, int n, int elemento, int pos) {
         int[] temp = new int[n + 1];
         for (int i = 0; i < pos; i++) {
             temp[i] = v[i];
@@ -31,9 +31,40 @@ class Esercizio {
         for (int i = 0; i < n + 1; i++) {
             v[i] = temp[i];
         }
+        return n+1;
     }
 
-    public static void eliminaElemento(int[] v, int n) {
+    public static int inserisciElementoOtt(int[] v, int n, int elemento, int pos) {
+        int i = n;
+        while (i > pos)
+        {
+            v[i] = v[i-1];
+        }
+
+        v[pos] = elemento;
+
+        return n+1;
+    }
+
+    public static int eliminaElemento(int[] v, int n, int pos) {
+        int[] temp = new int[n - 1];
+        for (int i = 0; i < pos; i++) {
+            temp[i] = v[i];
+        }
+        for (int i = pos + 1; i < n; i++) {
+            temp[i - 1] = v[i];
+        }
+        for (int i = 0; i < n - 1; i++) {
+            v[i] = temp[i];
+        }
+        return n - 1;
+    }
+
+    public static int eliminaElementoOtt(int[] v, int n, int pos) {
+        for (int i = pos; i < n - 1; i++) {
+            v[i] = v[i + 1];
+        }
+        return n - 1;
     }
 
     public static int ricercaElemento(int[] v, int n, int e) {
@@ -73,14 +104,15 @@ class Esercizio {
             c = selezMenu();
             switch (c) {
                 case 1:
-                    
                     System.out.println("Inserisci elemento e posizione");
                     e = Integer.parseInt(in.nextLine());
                     pos = Integer.parseInt(in.nextLine()); 
-                    inserisciElemento(v, n, e, pos);
+                    n= inserisciElemento(v, n, e, pos);
                     break;
                 case 2:
-                    eliminaElemento(v, n);
+                    System.out.println("Inserisci posizione");
+                    pos = Integer.parseInt(in.nextLine()); 
+                    n= eliminaElemento(v, n, pos);
                     break;
                 case 3:
                     System.out.println("ins elemento");
