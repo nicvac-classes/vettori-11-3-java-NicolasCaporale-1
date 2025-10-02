@@ -3,7 +3,6 @@
 //Import di Classi Java necessarie al funzionamento del programma
 import java.util.Scanner;
 
-// Classe principale, con metodo main
 class Esercizio {
 
     private static Scanner in = new Scanner(System.in);
@@ -15,7 +14,7 @@ class Esercizio {
             System.out.println(
                     "1)Ins elemento \n2)Elimina elemento \n3)Ricerca vettore \n4)Elimina duplicati \n5)Visualizza vettore \n6)Esci");
             c = Integer.parseInt(in.nextLine());
-        } while (c != 1 || c != 2 || c != 3 || c != 4 || c != 5 || c != 6);
+        } while (c < 1 || c > 6);
         return c;
     }
 
@@ -31,19 +30,17 @@ class Esercizio {
         for (int i = 0; i < n + 1; i++) {
             v[i] = temp[i];
         }
-        return n+1;
+        return n + 1;
     }
 
     public static int inserisciElementoOtt(int[] v, int n, int elemento, int pos) {
         int i = n;
-        while (i > pos)
-        {
-            v[i] = v[i-1];
+        while (i > pos) {
+            v[i] = v[i - 1];
+            i--;
         }
-
         v[pos] = elemento;
-
-        return n+1;
+        return n + 1;
     }
 
     public static int eliminaElemento(int[] v, int n, int pos) {
@@ -73,25 +70,68 @@ class Esercizio {
             if (v[i] == e) {
                 return i;
             }
+            i++;
         }
         return -1;
     }
 
-    public static void eliminaDuplicati(int[] v, int n) {
+    public static int eliminaDuplicatiCopia(int[] v, int n) {
+        int[] temp = new int[n];
+        int m = 0;
+        int i = 0;
+        while (i < n) {
+            boolean dup = false;
+            int j = 0;
+            while (j < m && !dup) {
+                if (v[i] == temp[j]) {
+                    dup = true;
+                } else {
+                    j++;
+                }
+            }
+            if (!dup) {
+                temp[m] = v[i];
+                m++;
+            }
+            i++;
+        }
+        int k = 0;
+        while (k < m) {
+            v[k] = temp[k];
+            k++;
+        }
+        return m;
+    }
+
+    public static int eliminaDuplicatiOtt(int[] v, int n) {
+        int i = 0;
+        while (i < n) {
+            int j = i + 1;
+            while (j < n) {
+                if (v[i] == v[j]) {
+                    n = eliminaElementoOtt(v, n, j);
+                } else {
+                    j++;
+                }
+            }
+            i++;
+        }
+        return n;
     }
 
     public static void visualizzaVettore(int[] v, int n) {
         if (n == 0) {
             System.out.println("Il vettore è vuoto.");
         } else {
-            for (int i = 0; i < n; i++) {
+            int i = 0;
+            while (i < n) {
                 System.out.print(v[i] + " ");
+                i++;
             }
             System.out.println();
         }
     }
 
-    // Il programma parte con una chiamata a main().
     public static void main(String args[]) {
         int c, n;
         int e, pos;
@@ -106,13 +146,13 @@ class Esercizio {
                 case 1:
                     System.out.println("Inserisci elemento e posizione");
                     e = Integer.parseInt(in.nextLine());
-                    pos = Integer.parseInt(in.nextLine()); 
-                    n= inserisciElemento(v, n, e, pos);
+                    pos = Integer.parseInt(in.nextLine());
+                    n = inserisciElemento(v, n, e, pos);
                     break;
                 case 2:
                     System.out.println("Inserisci posizione");
-                    pos = Integer.parseInt(in.nextLine()); 
-                    n= eliminaElemento(v, n, pos);
+                    pos = Integer.parseInt(in.nextLine());
+                    n = eliminaElemento(v, n, pos);
                     break;
                 case 3:
                     System.out.println("ins elemento");
@@ -121,7 +161,13 @@ class Esercizio {
                     System.out.println(e);
                     break;
                 case 4:
-                    eliminaDuplicati(v, n);
+                    System.out.println("1)Metodo copia 2)Metodo ottimizzato");
+                    int scelta = Integer.parseInt(in.nextLine());
+                    if (scelta == 1) {
+                        n = eliminaDuplicatiCopia(v, n);
+                    } else {
+                        n = eliminaDuplicatiOtt(v, n);
+                    }
                     break;
                 case 5:
                     visualizzaVettore(v, n);
@@ -130,9 +176,6 @@ class Esercizio {
                     System.out.println("Uscita");
                     break;
             }
-
         } while (c != 6);
     }
 }
-
-// LEGGERE LE ISTRUZIONI NEL FILE README.md
